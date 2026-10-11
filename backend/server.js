@@ -1,10 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import conntectToDb from './config/db.js';
-import { logic } from './controllers/logic.js';
+import userRoutes from './routes/user.routes.js'
+
 dotenv.config()
 conntectToDb();
-
 
 const app = express();
 
@@ -13,13 +13,28 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
+
+
 // app.use(cors())
 
 
 
-const PORT = process.env.PORT || 8080
+const PORT = 3000
 
-app.get("/",logic)
+
+
+// app.get('/api/health',(req,res)=>{
+//     console.log("your todo api is running perfectly")
+//     res.send("your todo api is running perfectly")
+// })
+
+app.use("/api/user",userRoutes)
+
+app.get("/api/health",(req,res)=>{
+    console.log("working fine")
+    res.send("hello")
+})
+
 
 app.listen(PORT,(req,res)=>{
     console.log(`server is running on port ${PORT}`)
