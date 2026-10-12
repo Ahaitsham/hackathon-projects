@@ -2,6 +2,8 @@ import express from 'express'
 import dotenv from 'dotenv'
 import conntectToDb from './config/db.js';
 import userRoutes from './routes/user.routes.js'
+import todoRoutes from './routes/todo.routes.js'
+import cookieParser from 'cookie-parser';
 
 dotenv.config()
 conntectToDb();
@@ -12,6 +14,7 @@ const app = express();
 //tomorrow we will discuss this part in detail
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
+app.use(cookieParser());
 
 
 
@@ -29,11 +32,14 @@ const PORT = 3000
 // })
 
 app.use("/api/user",userRoutes)
+app.use("/api/todo",todoRoutes);
 
 app.get("/api/health",(req,res)=>{
     console.log("working fine")
     res.send("hello")
 })
+
+
 
 
 app.listen(PORT,(req,res)=>{
